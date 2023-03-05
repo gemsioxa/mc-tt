@@ -4,14 +4,16 @@ import { Grid } from '@mui/material'
 import List from './List/List'
 import TextArea from './TextArea/TextArea'
 import Table from './Table/Table'
+import { observer } from 'mobx-react'
+import { displayStore } from '../../App'
 
 
-export default function Editor() {
+function Editor() {
 
     const [showTable, setShowTable] = useState(true)
 
 
-    if(showTable) {
+    if(displayStore._isTable) {
         return <Table/>
     } else {
   return (
@@ -28,8 +30,11 @@ export default function Editor() {
             display: 'flex',
             flexDirection: 'column'
         }}>
-            <TextArea/>
+            {displayStore._isActive ? 
+            <TextArea/> : null}
         </Grid>
     </Grid>
-    )}
+    )
 }
+}
+export default observer(Editor);

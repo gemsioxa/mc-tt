@@ -1,7 +1,9 @@
 import React from 'react'
 import { Grid, Box, Typography } from '@mui/material'
+import { displayStore } from '../../../App'
+import { observer } from 'mobx-react'
 
-export default function ListItem() {
+function ListItem() {
   return (
     <Grid item sm={12} sx={{
         cursor: 'pointer',
@@ -11,7 +13,7 @@ export default function ListItem() {
         '&:hover': {
             background:'#464646',
         }
-    }}>
+    }} onClick={() => displayStore.setIsActive(true)}>
         <Box sx={{
             margin: '15px 0 0 25px',
             padding: '0 25px 15px 0',
@@ -49,3 +51,5 @@ export default function ListItem() {
     </Grid>
   )
 }
+
+export default observer(ListItem)

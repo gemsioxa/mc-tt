@@ -4,10 +4,12 @@ import { Grid, TextField, InputAdornment, Box } from '@mui/material'
 import Button from '@mui/material/Button'
 import { borderColor, borderRadius } from '@mui/system'
 import React, { useState } from 'react'
+import { displayStore } from '../../App'
+import { observer } from 'mobx-react'
 import './Header.sass'
-export default function Header() {
-
-  const [showTable, setShowTable] = useState(true)
+function Header() {
+  
+  // const [showTable, setShowTable] = useState(true)
 
   const HeaderButton = styled(Button) ({
     backgroundColor: 'none',
@@ -27,7 +29,7 @@ export default function Header() {
       color: '#545657'
     }
   })
-  const tableShowing = showTable ? {
+  const tableShowing = displayStore._isTable ? {
     bgColor: '#212225',
     brVisibilityList: 'none',
     brVisibilityTable: '1px solid #545657'
@@ -58,9 +60,16 @@ export default function Header() {
           padding: '0 10px'
         }}>
           <Box>
-            <HeaderButton onClick={() => setShowTable(false)}><FormatListBulleted/></HeaderButton>
-            <HeaderButton onClick={() => setShowTable(true)}><GridView/></HeaderButton>
-            {showTable ? <HeaderButton disabled><ArrowBackIosNewRounded/></HeaderButton> : null}
+            <HeaderButton onClick={() => displayStore.setIsTable(false)}><FormatListBulleted/></HeaderButton>
+            <HeaderButton onClick={() => displayStore.setIsTable(true)}><GridView/></HeaderButton>
+            {displayStore._isTable ? displayStore._isActive ?
+            <HeaderButton onClick={() => displayStore.setIsActive(false)}>
+              <ArrowBackIosNewRounded/>
+            </HeaderButton> :
+            <HeaderButton disabled>
+              <ArrowBackIosNewRounded/>
+            </HeaderButton> 
+            : null}
           </Box>
           <Box sx={{
             display: 'flex'
@@ -118,3 +127,5 @@ export default function Header() {
     </Grid>
   )
 }
+
+export default observer(Header)

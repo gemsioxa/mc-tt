@@ -1,5 +1,6 @@
 import React from 'react'
 import { Box, Typography, Grid, TextField } from '@mui/material'
+import { displayStore } from '../../../App'
 
 export default function TableItem() {
   return (
@@ -19,7 +20,7 @@ export default function TableItem() {
                 borderWidth: '1px',
 
             }
-        }}>
+        }} onClick={() => displayStore.setIsActive(true)}>
             <Box sx={{
                 padding: '15px'
             }}>
