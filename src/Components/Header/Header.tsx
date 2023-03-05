@@ -7,7 +7,7 @@ import React, { useState } from 'react'
 import './Header.sass'
 export default function Header() {
 
-  const [showTable, setShowTable] = useState(false)
+  const [showTable, setShowTable] = useState(true)
 
   const HeaderButton = styled(Button) ({
     backgroundColor: 'none',
