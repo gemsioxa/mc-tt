@@ -10,31 +10,28 @@ import { displayStore } from '../../App'
 
 function Editor() {
 
-    const [showTable, setShowTable] = useState(true)
-
-
-    if(displayStore._isTable) {
+    if (displayStore._isTable && !displayStore._isActive) {
         return <Table/>
     } else {
-  return (
-    <Grid container sx={{
-        height: '100%'
-    }}>
-        <Grid item xs={3} sx={{
-            background: '#212326',
-            borderRight: '1px solid black'
-        }}> 
-            <List/>
-        </Grid>
-        <Grid item xs={9} alignItems='center' sx={{
-            display: 'flex',
-            flexDirection: 'column'
-        }}>
-            {displayStore._isActive ? 
-            <TextArea/> : null}
-        </Grid>
-    </Grid>
-    )
-}
+        return (
+            <Grid container sx={{
+                height: '100%'
+            }}>
+                {displayStore._isTable || <Grid item xs={3} sx={{
+                    background: '#212326',
+                    borderRight: '1px solid black'
+                }}> 
+                    <List/>
+                </Grid>}
+                <Grid item xs={displayStore._isTable ? 12 : 9} alignItems='center' sx={{
+                    display: 'flex',
+                    flexDirection: 'column'
+                }}>
+                    {displayStore._isActive ? 
+                    <TextArea/> : null}
+                </Grid>
+            </Grid>
+        )
+    }
 }
 export default observer(Editor);
