@@ -7,7 +7,7 @@ import React, { useState } from 'react'
 import './Header.sass'
 export default function Header() {
 
-  const [showTable, setShowTable] = useState(true)
+  const [showTable, setShowTable] = useState(false)
 
   const HeaderButton = styled(Button) ({
     backgroundColor: 'none',
@@ -39,13 +39,15 @@ export default function Header() {
   }
   return (
     <Grid container rowSpacing={1}  sx={{
-      height: 65,
+      width: '100%',
+      height: '73px',
       backgroundColor: 'white',
+      
     }}>
       <Grid item xs={3} alignItems='center' sx={{
         borderRight: tableShowing.brVisibilityList,
         backgroundColor: tableShowing.bgColor,
-        display:'flex'
+        display:'flex',
       }}>
         <Box alignItems='center' sx={{
           borderRight: tableShowing.brVisibilityTable,
