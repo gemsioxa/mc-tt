@@ -27,8 +27,8 @@ function Editor() {
                     display: 'flex',
                     flexDirection: 'column'
                 }}>
-                    {displayStore._isActive ? 
-                    <TextArea/> : null}
+                    {displayStore._isActive && 
+                    <TextArea/>}
                 </Grid>
             </Grid>
         )

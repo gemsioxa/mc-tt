@@ -13,7 +13,10 @@ function Header() {
   const handleOpen = () => setShowDelete(true)
   const handleClose = () => setShowDelete(false)
 
-  const editInTable = displayStore._isTable ? displayStore._isActive ? true : false : false
+  // if editing in table display mode
+  const editInTable = displayStore._isTable && displayStore._isActive
+  // if editing is active in any mode
+  const editActive = displayStore._isActive
 
   const style = {
     position: 'absolute' as 'absolute',
@@ -114,7 +117,7 @@ function Header() {
         </Modal>
       </div>
       {/* header leftside */}
-      <Grid item xs={displayStore._isTable ? displayStore._isActive ? 7 : 3 : 3} alignItems='center' sx={{
+      <Grid item xs={editInTable ? 7 : 3} alignItems='center' sx={{
         borderRight: tableShowing.brVisibilityList,
         backgroundColor: tableShowing.bgColor,
         display:'flex',
@@ -159,7 +162,7 @@ function Header() {
         </Box>
       </Grid>
       {/* header rightside */}
-      <Grid item xs={displayStore._isTable ? displayStore._isActive ? 5 : 9 : 9} alignItems='center' alignContent='baseline' sx={{
+      <Grid item xs={editInTable ? 5 : 9} alignItems='center' alignContent='baseline' sx={{
         display: 'flex',
         justifyContent: 'space-between',
         padding: '0 10px',
@@ -173,7 +176,7 @@ function Header() {
           <HeaderButton>
             <Create/>
           </HeaderButton>
-          <HeaderButton>
+          <HeaderButton disabled={!editActive}>
             <FormatColorTextRounded/>
           </HeaderButton>
           {editInTable ? <HeaderButton disabled>
