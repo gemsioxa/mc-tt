@@ -8,10 +8,11 @@ export default function List() {
         height: 'calc(100vh - 65px)',
         maxHeight: 'calc(100vh - 65px)',
         overflowY: 'scroll',
+        overflow: 'hidden'
     }}>
         <Box sx={{
             borderBottom: '1px solid #545657',
-            padding: '0 10px'
+            padding: '0 15px'
         }}>
             <Typography sx={{
                 color: 'lightgrey',
@@ -31,7 +32,7 @@ export default function List() {
                 // padding: '10px',
                 height: '100%',
                 width: 'auto',
-                margin: '10px'
+                margin: '15px'
             }}>
                 <ListItem/>
                 <ListItem/>

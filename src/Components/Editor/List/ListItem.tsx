@@ -7,7 +7,7 @@ export default function ListItem() {
         cursor: 'pointer',
         borderRadius: '8px',
         // padding: '15px 0 0 25px',
-        marginBottom: '5px',
+        marginBottom: '15px',
         '&:hover': {
             background:'#464646',
         }
@@ -39,7 +39,8 @@ export default function ListItem() {
                 {'17:30'}
             </Typography>
             <Typography component='span' sx={{
-                fontSize: '0.9rem'
+                fontSize: '0.9rem',
+                color: '#9e9e9f'
             }}>
                 {'Нет дополнительного текста'}
             </Typography>

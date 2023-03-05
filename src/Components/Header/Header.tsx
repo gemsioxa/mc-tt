@@ -55,7 +55,7 @@ export default function Header() {
           height: '50%',
           display: 'flex',
           justifyContent: 'space-between',
-          padding: '0 5px'
+          padding: '0 10px'
         }}>
           <Box>
             <HeaderButton onClick={() => setShowTable(false)}><FormatListBulleted/></HeaderButton>
@@ -73,7 +73,7 @@ export default function Header() {
       <Grid item xs={9} alignItems='center' alignContent='baseline' sx={{
         display: 'flex',
         justifyContent: 'space-between',
-        padding: '0 5px',
+        padding: '0 10px',
         backgroundColor: '#212225'
       }}>
         <Box sx={{
@@ -91,6 +91,7 @@ export default function Header() {
               </InputAdornment>
             ),
           }} sx={{
+            marginRight: '5px',
             '.css-1q6at85-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
               borderColor: '#28282d'
             },
@@ -110,7 +111,7 @@ export default function Header() {
             },
             'input': {
               color: 'grey',
-              padding: '5px 20px 5px 0'
+              padding: '5px 20px 5px 0',
             },
           }}/>
       </Grid>
