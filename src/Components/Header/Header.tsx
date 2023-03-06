@@ -4,7 +4,7 @@ import { Grid, TextField, InputAdornment, Box, Modal, Typography } from '@mui/ma
 import Button from '@mui/material/Button'
 import { borderColor, borderRadius } from '@mui/system'
 import React, { useState } from 'react'
-import { displayStore } from '../../App'
+import { displayStore, noteStore } from '../../main'
 import { observer } from 'mobx-react'
 import './Header.sass'
 function Header() {
@@ -17,6 +17,23 @@ function Header() {
   const editInTable = displayStore._isTable && displayStore._isActive
   // if editing is active in any mode
   const editActive = displayStore._isActive
+
+
+  function createNote() {
+    noteStore.addNote({
+      'title': '',
+      'text': ''
+    })
+    displayStore.setIsActive(true)
+    noteStore.setActiveIndex(noteStore.notes.length - 1)
+  }
+
+  function deleteNote() {
+    noteStore.removeNote(noteStore.activeIndex)
+    displayStore.setIsActive(false)
+    setShowDelete(false)
+  }
+
 
   const style = {
     position: 'absolute' as 'absolute',
@@ -108,10 +125,15 @@ function Header() {
                 borderBottomLeftRadius: '8px'
               }}>{'Отмена'}</Button>
               <Button 
-              onClick={handleClose}
-              sx={{
-                borderBottomRightRadius: '8px'
-              }}>{'Удалить'}</Button>
+                onClick={() => {
+                  deleteNote()
+                }}
+                sx={{
+                    borderBottomRightRadius: '8px'
+                  }}
+              >
+                {'Удалить'}
+              </Button>
             </Box>
           </Box>
         </Modal>
@@ -173,7 +195,7 @@ function Header() {
           display: 'flex',
           justifyContent: 'space-between'
         }}>
-          <HeaderButton>
+          <HeaderButton onClick={() => createNote()}>
             <Create/>
           </HeaderButton>
           <HeaderButton disabled={!editActive}>

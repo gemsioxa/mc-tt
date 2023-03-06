@@ -5,7 +5,7 @@ import List from './List/List'
 import TextArea from './TextArea/TextArea'
 import Table from './Table/Table'
 import { observer } from 'mobx-react'
-import { displayStore } from '../../App'
+import { displayStore } from '../../main'
 
 
 function Editor() {

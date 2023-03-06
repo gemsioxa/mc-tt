@@ -1,4 +1,4 @@
-import react from 'react'
+import react, { useEffect } from 'react'
 import './App.css'
 import Header from './Components/Header/Header'
 import Editor from './Components/Editor/Editor'
@@ -7,25 +7,28 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import DisplayStore from './stores/DisplayStore'
+import { noteStore } from './main'
 
-export const displayStore = new DisplayStore(false)
+export function getItems () {
+  if (localStorage.getItem('notes')) {
+    const data = localStorage.getItem('notes')
+    // console.log(data)
+    noteStore.setNotes(JSON.parse(data))
+
+  } else {
+    // localStorage.setItem('notes', JSON.stringify(noteStore.notes))
+  }
+  // localStorage.removeItem('notes')
+  // localStorage.setItem('notes', JSON.stringify(noteStore.notes))
+  // console.log(localStorage.getItem('notes'))
+}
 
 function App() {
-  // const styles = (theme: any) => ({
-  //   '@global': {
-  //     '*::-webkit-scrollbar': {
-  //       width: '0.4em'
-  //     },
-  //     '*::-webkit-scrollbar-track': {
-  //       '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
-  //     },
-  //     '*::-webkit-scrollbar-thumb': {
-  //       backgroundColor: 'rgba(0,0,0,.1)',
-  //       outline: '1px solid slategrey'
-  //     }
-  //   }
-  // });
+
+  
+  useEffect(() => {
+    getItems()
+  }, [])
 
   return (
     <Box className="App" sx={{

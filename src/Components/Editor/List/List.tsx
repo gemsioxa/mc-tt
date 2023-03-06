@@ -1,14 +1,18 @@
 import { Box, Typography, Grid } from '@mui/material'
 import React from 'react'
+import { noteStore } from '../../../main'
 import ListItem from './ListItem'
+import { observer } from 'mobx-react'
 
-export default function List() {
+function List() {
+
+    const notes = noteStore.notes
+
   return (
     <Box sx={{
         height: 'calc(100vh - 65px)',
         maxHeight: 'calc(100vh - 65px)',
-        overflowY: 'scroll',
-        overflow: 'hidden'
+        overflowY: 'auto',
     }}>
         <Box sx={{
             borderBottom: '1px solid #545657',
@@ -34,14 +38,12 @@ export default function List() {
                 width: 'auto',
                 margin: '15px'
             }}>
-                <ListItem/>
-                <ListItem/>
-                <ListItem/>
-                <ListItem/>
-                <ListItem/>
-                <ListItem/>
+                {notes.map((item, index) => {
+                    return <ListItem id={index} title={item.title} text={item.text}/>
+                })}
             </Grid>
         </Box>
     </Box>
   )
 }
+export default observer(List)

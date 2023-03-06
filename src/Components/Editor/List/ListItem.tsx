@@ -1,9 +1,14 @@
 import React from 'react'
 import { Grid, Box, Typography } from '@mui/material'
-import { displayStore } from '../../../App'
+import { displayStore, noteStore } from '../../../main'
 import { observer } from 'mobx-react'
-
-function ListItem() {
+import { INotes } from '../../../utils/interfaces'
+type Props = {
+    id: number,
+    title: string,
+    text: string
+}
+function ListItem(prop: Props ) {
   return (
     <Grid item sm={12} sx={{
         cursor: 'pointer',
@@ -13,7 +18,12 @@ function ListItem() {
         '&:hover': {
             background:'#464646',
         }
-    }} onClick={() => displayStore.setIsActive(true)}>
+    }} onClick={() => {
+        displayStore.setIsActive(false)
+        displayStore.setIsActive(true)
+        noteStore.setActiveIndex(prop.id)
+        console.log(prop.id)
+        }}>
         <Box sx={{
             margin: '15px 0 0 25px',
             padding: '0 25px 15px 0',
@@ -28,7 +38,7 @@ function ListItem() {
         <Typography component='p' sx={{
             fontWeight: '800',
         }}>
-            {'Фолди'}
+            {prop.title || 'Нет заголовка'}
         </Typography>
         <Box alignItems='end' sx={{
             display: 'flex',
@@ -44,7 +54,7 @@ function ListItem() {
                 fontSize: '0.9rem',
                 color: '#9e9e9f'
             }}>
-                {'Нет дополнительного текста'}
+                {prop.text || 'Нет дополнительного текста'}
             </Typography>
         </Box>
         </Box>

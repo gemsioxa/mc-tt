@@ -1,10 +1,18 @@
 import React from 'react'
 import { Box, Typography, Grid, TextField } from '@mui/material'
-import { displayStore } from '../../../App'
-
-export default function TableItem() {
+import { displayStore, noteStore } from '../../../main'
+import { INotes } from '../../../utils/interfaces'
+import { observer } from 'mobx-react'
+type Props = {
+    id: number,
+    title: string,
+    text: string
+}
+function TableItem(prop: Props) {
   return (
-    <Grid item xs={6} sm={4} md={3}>
+    <Grid item xs={6} sm={4} md={3} sx={{
+
+    }}>
         <Box sx={{
             cursor: 'pointer',
             background: '#1e1e1e',
@@ -12,7 +20,7 @@ export default function TableItem() {
             borderRadius: '8px',
             margin: '0 auto',
             width: '75%',
-            height: '100%',
+            height: '330px',
             // scale: '0.7',
             overflowY: 'hidden',
             '&:hover': {
@@ -20,14 +28,19 @@ export default function TableItem() {
                 borderWidth: '1px',
 
             }
-        }} onClick={() => displayStore.setIsActive(true)}>
+        }} onClick={() => {
+            displayStore.setIsActive(true)
+            noteStore.setActiveIndex(prop.id)}}>
             <Box sx={{
                 padding: '15px'
             }}>
                 <Typography component='p' sx={{
                     fontWeight: '600'
                 }}>
-                    {'Фолди'}
+                    {prop.title}
+                </Typography>
+                <Typography component='span'>
+                    {prop.text}
                 </Typography>
             </Box>
         </Box>
@@ -38,7 +51,7 @@ export default function TableItem() {
             <Typography component='p' sx={{
                 fontWeight: '600'
             }}>
-                {'Фолди'}
+                {prop.title}
             </Typography>
             <Typography component='span' sx={{
                 color: '#9e9e9f',
@@ -50,3 +63,4 @@ export default function TableItem() {
     </Grid>
   )
 }
+export default observer(TableItem)
