@@ -9,6 +9,7 @@ import { NotesContext } from '../../../context'
 function ListItem(prop: Props ) {
 
     const {changeActiveIndex, changeIsActive} = useContext(NotesContext)
+    const noteDate = new Date(prop.date).toLocaleTimeString('ru-RU')
 
     async function changeTextArea(id: number) {
         await changeIsActive(false)
@@ -51,7 +52,7 @@ function ListItem(prop: Props ) {
                     fontWeight: '800',
                     marginRight: '5px'
                 }}>
-                    {'17:30'}
+                    {noteDate.slice(0, -3)}
                 </Typography>
                 <Typography noWrap={true} component='span' sx={{
                     fontSize: '0.9rem',

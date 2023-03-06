@@ -1,5 +1,6 @@
 export type Props = {
     id: number,
     title: string,
-    text: string
+    text: string,
+    date: string
 }

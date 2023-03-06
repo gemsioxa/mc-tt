@@ -1,13 +1,16 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import {Box, Typography, TextareaAutosize, TextField} from '@mui/material'
-import { observer } from 'mobx-react'
-import { noteStore } from '../../../main'
 import { NotesContext } from '../../../context'
 
 function TextArea() {
-  
-  const {notes, activeIndex} = useContext(NotesContext)
-
+  let options = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }
+  const {notes, setNewNotes, activeIndex} = useContext(NotesContext)
+  const activeNote = notes[activeIndex]
+  const noteDate = new Date(notes[activeIndex].date)
   return (
     <Box sx={{
         // background:'red',
@@ -24,7 +27,7 @@ function TextArea() {
             margin: '10px 0',
             fontFamily: 'Roboto'
         }}>
-            {'6 марта 2023 г. в 20:30'}
+            {`${noteDate.toLocaleString('ru', options) + ' в ' + noteDate.toLocaleTimeString('ru').slice(0, -3)}`}
         </Typography>
         {/* <TextareaAutosize
           style={{ 
@@ -63,9 +66,15 @@ function TextArea() {
                 }
             },
           }} onChange={e => {
-            notes[activeIndex].title = e.target.value.split('\n')[0]
-            notes[activeIndex].text = e.target.value.split('\n').slice(1).join('\n')
-            // noteStore.notes[noteStore.activeIndex].text = e.target.value 
+            notes &&
+            
+            setNewNotes(notes.map((note, i) => {
+              if (i !== activeIndex) return note
+              note.title = e.target.value.split('\n')[0]
+              note.text = e.target.value.split('\n').slice(1).join('\n')
+              note.date = new Date().toString()
+              return note
+            }))
             localStorage.setItem('notes', JSON.stringify(notes))
           }}/>         
     </Box>

@@ -40,7 +40,7 @@ function List() {
                 margin: '15px'
             }}>
                 {notes.map((item, index) => {
-                    return <ListItem key={index} id={index} title={item.title} text={item.text}/>
+                    return <ListItem key={index} id={index} title={item.title} text={item.text} date={item.date}/>
                 })}
             </Grid>
         </Box>

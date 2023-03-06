@@ -1,7 +1,8 @@
-import react, { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, createContext, useContext } from 'react'
 import './App.css'
 import Header from './Components/Header/Header'
 import Editor from './Components/Editor/Editor'
+import { EditorApi, useEditor } from './hooks/useEditor';
 import { Grid, Box } from '@mui/material'
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -10,17 +11,21 @@ import '@fontsource/roboto/700.css';
 import { noteStore } from './main'
 import { NotesContext } from './context'
 import { INotes } from './utils/interfaces'
-// https://www.youtube.com/watch?v=gIyznkY_tSM
+
+
+
 function App() {
   const [notes, setNotes] = useState<INotes[]>([]);
   const [isTable, setIsTable] = useState(false)
   const [isActive, setIsActive] = useState(false)
   const [activeIndex, setActiveIndex] = useState<number>(0)
+  const editorApi = useEditor()
   
   useEffect(() => {
     const data = localStorage.getItem('notes');
     if (data) {
       setNotes(JSON.parse(data))
+
     } 
   }, [])
 

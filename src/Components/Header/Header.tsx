@@ -56,7 +56,8 @@ function Header() {
   async function createNote() {
     await addNewNote({
       'title': '',
-      'text': ''
+      'text': '',
+      'date': new Date()
     })
 
     changeIsActive(true)
