@@ -11,7 +11,7 @@ import { NotesContext } from '../../../context'
 function TableItem(prop: Props) {
     
     const {changeActiveIndex, changeIsActive} = useContext(NotesContext)
-
+    const noteDate = new Date(prop.date).toLocaleTimeString('ru-RU')
   return (
     <Grid item xs={6} sm={4} md={3} sx={{
 
@@ -61,7 +61,7 @@ function TableItem(prop: Props) {
                 color: '#9e9e9f',
                 fontWeight: '600'
             }}>
-                {'17:30'}
+                {noteDate.slice(0, -3)}
             </Typography>
         </Box>
     </Grid>

@@ -38,7 +38,7 @@ function Table() {
             // columnSpacing={6}
             >
                 {notes.map((item, index) => {
-                    return <TableItem id={index} title={item.title} text={item.text}/>
+                    return <TableItem id={index} title={item.title} text={item.text} date={item.date}/>
                 })}
             </Grid>
         </>}

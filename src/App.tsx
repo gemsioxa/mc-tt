@@ -16,6 +16,7 @@ import { INotes } from './utils/interfaces'
 
 function App() {
   const [notes, setNotes] = useState<INotes[]>([]);
+  const [dateNotes, setDateNotes] = useState<INotes[]>([])
   const [isTable, setIsTable] = useState(false)
   const [isActive, setIsActive] = useState(false)
   const [activeIndex, setActiveIndex] = useState<number>(0)
@@ -26,7 +27,9 @@ function App() {
     if (data) {
       setNotes(JSON.parse(data))
 
+
     } 
+    // localStorage.removeItem('notes')
   }, [])
 
   const setNewNotes = (notes: INotes[]) => {
@@ -40,6 +43,8 @@ function App() {
     changeActiveIndex(0)
     localStorage.setItem('notes', JSON.stringify(newNotes))
   }
+
+  
 
   const removeNote = (index: number) => {
     const newNotes = notes.filter(item => item != notes[index])
@@ -59,6 +64,15 @@ function App() {
   const changeActiveIndex = (index: number) => {
     setActiveIndex(index)
   }
+
+  // const changeActiveNote = (note:INotes) => {
+  //   const newNotes = [note, ...notes]
+  //   setNotes(newNotes)
+  //   changeIsActive(false)
+  //   changeActiveIndex(0)
+  //   localStorage.setItem('notes', JSON.stringify(newNotes))
+  // }
+
   return (
     <NotesContext.Provider value={{
       notes,

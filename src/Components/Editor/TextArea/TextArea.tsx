@@ -8,7 +8,7 @@ function TextArea() {
     month: 'long',
     day: 'numeric',
   }
-  const {notes, setNewNotes, activeIndex} = useContext(NotesContext)
+  const {notes, setNewNotes, activeIndex, changeActiveIndex, addNewNote, removeNote, changeIsActive} = useContext(NotesContext)
   const activeNote = notes[activeIndex]
   const noteDate = new Date(notes[activeIndex].date)
   return (
@@ -66,15 +66,33 @@ function TextArea() {
                 }
             },
           }} onChange={e => {
-            notes &&
-            
+            notes &&          
             setNewNotes(notes.map((note, i) => {
               if (i !== activeIndex) return note
               note.title = e.target.value.split('\n')[0]
               note.text = e.target.value.split('\n').slice(1).join('\n')
               note.date = new Date().toString()
+              
               return note
             }))
+            if (activeIndex != 0) {
+              setNewNotes(notes.sort((a, b) => {
+                const aSort = new Date(`${a.date}`)
+                const bSort = new Date(`${b.date}`)
+                if (aSort > bSort) return -1
+                else return 1
+              }))
+              changeActiveIndex(0)
+              changeIsActive(false)
+              changeIsActive(true)
+              // addNewNote({
+              //   'title': e.target.value.split('\n')[0],
+              //   'text': e.target.value.split('\n').slice(1).join('\n'),
+              //   'date': new Date().toString()
+              // })
+              // removeNote(activeIndex + 1)
+              // changeIsActive(true)
+            }
             localStorage.setItem('notes', JSON.stringify(notes))
           }}/>         
     </Box>

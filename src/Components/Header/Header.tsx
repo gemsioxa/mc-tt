@@ -57,7 +57,7 @@ function Header() {
     await addNewNote({
       'title': '',
       'text': '',
-      'date': new Date()
+      'date': new Date().toString()
     })
 
     changeIsActive(true)
