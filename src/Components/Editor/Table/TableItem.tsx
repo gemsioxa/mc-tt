@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Box, Typography, Grid, TextField } from '@mui/material'
 import { displayStore, noteStore } from '../../../main'
 import { INotes } from '../../../utils/interfaces'
 import { observer } from 'mobx-react'
-type Props = {
-    id: number,
-    title: string,
-    text: string
-}
+import { changeTextArea } from '../../../utils/functions'
+import { Props } from '../../../utils/types'
+import { NotesContext } from '../../../context'
+
+
 function TableItem(prop: Props) {
+    
+    const {changeActiveIndex, changeIsActive} = useContext(NotesContext)
+
   return (
     <Grid item xs={6} sm={4} md={3} sx={{
 
@@ -29,8 +32,9 @@ function TableItem(prop: Props) {
 
             }
         }} onClick={() => {
-            displayStore.setIsActive(true)
-            noteStore.setActiveIndex(prop.id)}}>
+            changeActiveIndex(prop.id)
+            changeIsActive(true)
+        }}>
             <Box sx={{
                 padding: '15px'
             }}>
@@ -63,4 +67,4 @@ function TableItem(prop: Props) {
     </Grid>
   )
 }
-export default observer(TableItem)
+export default TableItem

@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {Box, Typography, TextareaAutosize, TextField} from '@mui/material'
 import { observer } from 'mobx-react'
 import { noteStore } from '../../../main'
+import { NotesContext } from '../../../context'
 
 function TextArea() {
-
-  const activeNote = noteStore.notes[noteStore.activeIndex]
+  
+  const {notes, activeIndex} = useContext(NotesContext)
 
   return (
     <Box sx={{
@@ -23,7 +24,7 @@ function TextArea() {
             margin: '10px 0',
             fontFamily: 'Roboto'
         }}>
-            {'2 марта 2023 г. в 17:30'}
+            {'6 марта 2023 г. в 20:30'}
         </Typography>
         {/* <TextareaAutosize
           style={{ 
@@ -41,8 +42,9 @@ function TextArea() {
           }}
         /> */}
         <TextField
+          id={'textArea_edit'}
           multiline
-          defaultValue={activeNote.text}
+          defaultValue={notes[activeIndex].title ? notes[activeIndex].title + '\n' + notes[activeIndex].text : notes[activeIndex].text}
           variant="standard"
           sx={{
             width: '100%',
@@ -61,12 +63,13 @@ function TextArea() {
                 }
             },
           }} onChange={e => {
-            activeNote.text = e.target.value
-            noteStore.notes[noteStore.activeIndex].text = e.target.value 
-            localStorage.setItem('notes', JSON.stringify(noteStore.notes))
-            }}/>            
+            notes[activeIndex].title = e.target.value.split('\n')[0]
+            notes[activeIndex].text = e.target.value.split('\n').slice(1).join('\n')
+            // noteStore.notes[noteStore.activeIndex].text = e.target.value 
+            localStorage.setItem('notes', JSON.stringify(notes))
+          }}/>         
     </Box>
   )
 }
 
-export default observer(TextArea)
+export default TextArea

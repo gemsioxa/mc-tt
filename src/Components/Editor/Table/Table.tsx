@@ -1,13 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Box, Typography, Grid } from '@mui/material'
 import TableItem from './TableItem'
 import TextArea from '../TextArea/TextArea'
 import { displayStore, noteStore } from '../../../main'
 import { observer } from 'mobx-react'
+import { NotesContext } from '../../../context'
 
 function Table() {
 
-    const notes = noteStore.notes
+    const {notes} = useContext(NotesContext)
 
   return (
     <Box sx={{
@@ -45,4 +46,4 @@ function Table() {
   )
 }
 
-export default observer(Table)
+export default Table

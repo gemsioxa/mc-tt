@@ -1,4 +1,4 @@
-import react, { useEffect } from 'react'
+import react, { useEffect, useState, useRef } from 'react'
 import './App.css'
 import Header from './Components/Header/Header'
 import Editor from './Components/Editor/Editor'
@@ -8,29 +8,65 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { noteStore } from './main'
-
-export function getItems () {
-  if (localStorage.getItem('notes')) {
-    const data = localStorage.getItem('notes')
-    // console.log(data)
-    noteStore.setNotes(JSON.parse(data))
-
-  } else {
-    // localStorage.setItem('notes', JSON.stringify(noteStore.notes))
-  }
-  // localStorage.removeItem('notes')
-  // localStorage.setItem('notes', JSON.stringify(noteStore.notes))
-  // console.log(localStorage.getItem('notes'))
-}
-
+import { NotesContext } from './context'
+import { INotes } from './utils/interfaces'
+// https://www.youtube.com/watch?v=gIyznkY_tSM
 function App() {
-
+  const [notes, setNotes] = useState<INotes[]>([]);
+  const [isTable, setIsTable] = useState(false)
+  const [isActive, setIsActive] = useState(false)
+  const [activeIndex, setActiveIndex] = useState<number>(0)
   
   useEffect(() => {
-    getItems()
+    const data = localStorage.getItem('notes');
+    if (data) {
+      setNotes(JSON.parse(data))
+    } 
   }, [])
 
+  const setNewNotes = (notes: INotes[]) => {
+    setNotes(notes);
+  }
+
+  const addNewNote = (note: INotes) => {
+    const newNotes = [note, ...notes]
+    setNotes(newNotes)
+    changeIsActive(false)
+    changeActiveIndex(0)
+    localStorage.setItem('notes', JSON.stringify(newNotes))
+  }
+
+  const removeNote = (index: number) => {
+    const newNotes = notes.filter(item => item != notes[index])
+    setNotes(newNotes)
+    console.log(newNotes)
+    localStorage.setItem('notes', JSON.stringify(newNotes))
+  }
+
+  const changeIsTable = (table: boolean) => {
+    setIsTable(table)
+  }
+  
+  const changeIsActive = (active: boolean) => {
+    setIsActive(active)
+  }
+
+  const changeActiveIndex = (index: number) => {
+    setActiveIndex(index)
+  }
   return (
+    <NotesContext.Provider value={{
+      notes,
+      setNewNotes,
+      addNewNote,
+      removeNote,
+      isTable,
+      changeIsTable,
+      isActive,
+      changeIsActive,
+      activeIndex,
+      changeActiveIndex,
+    }}>
     <Box className="App" sx={{
       maxHeight: '100%',
       maxWidth: '100vw'
@@ -48,6 +84,7 @@ function App() {
         </Grid>
       </Grid>
     </Box>
+    </NotesContext.Provider>
   )
 }
 

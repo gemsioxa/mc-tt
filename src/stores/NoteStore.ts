@@ -1,4 +1,5 @@
-import { makeObservable, observable } from "mobx";
+import { action, makeObservable, observable } from "mobx";
+import { displayStore } from "../main";
 // import { INotes } from "../utils/interfaces";
 export interface INotes {
     // id: number;
@@ -21,7 +22,15 @@ class NoteStore {
         ]
 
         makeObservable(this, {
-            _notes: observable
+            _notes: observable,
+            _activeIndex: observable,
+            setNotes: action,
+            addNote: action,
+            setActiveIndex: action,
+            removeNote: action,
+            // activeIndex: action,
+            // notes: action,
+
         })
     }
 
@@ -29,15 +38,16 @@ class NoteStore {
         this._notes = notes
     }
 
+    setActiveIndex (index: number) {
+        displayStore.setIsActive(false)
+        this._activeIndex = index
+    }
+
     addNote (note: INotes) {
         // console.log(note)
         this._notes.push(note)
         localStorage.setItem('notes', JSON.stringify(this._notes))
         console.log(this._notes)
-    }
-
-    setActiveIndex (index: number) {
-        this._activeIndex = index
     }
 
     removeNote (index: number) {

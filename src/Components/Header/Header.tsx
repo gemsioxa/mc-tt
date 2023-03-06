@@ -2,38 +2,72 @@ import styled from '@emotion/styled'
 import {FormatListBulleted, GridView, DeleteOutlineOutlined, Create, FormatColorTextRounded, SearchRounded, ArrowBackIosNewRounded, RuleRounded} from '@mui/icons-material'
 import { Grid, TextField, InputAdornment, Box, Modal, Typography } from '@mui/material'
 import Button from '@mui/material/Button'
-import { borderColor, borderRadius } from '@mui/system'
-import React, { useState } from 'react'
-import { displayStore, noteStore } from '../../main'
-import { observer } from 'mobx-react'
+import { useState, useContext } from 'react'
 import './Header.sass'
+import { NotesContext } from '../../context'
 function Header() {
   
   const [showDelete, setShowDelete] = useState(false)
   const handleOpen = () => setShowDelete(true)
   const handleClose = () => setShowDelete(false)
 
+  const {notes, isActive, changeIsActive, isTable, changeIsTable, activeIndex, changeActiveIndex, addNewNote, removeNote} = useContext(NotesContext)
+
   // if editing in table display mode
-  const editInTable = displayStore._isTable && displayStore._isActive
+  const editInTable = isActive && isTable
   // if editing is active in any mode
-  const editActive = displayStore._isActive
+  const editActive = isActive
+  
+
+  function formatText() {
+    const textArea = document.getElementById("textArea_edit") as HTMLTextAreaElement;
+    if (textArea.selectionStart == textArea.selectionEnd) {
+      return; // ничего не выделено
+    }
+    const selectionStart = textArea.selectionStart - notes[activeIndex].title.length - 1;
+    const selectionEnd = textArea.selectionEnd - notes[activeIndex].title.length - 1;
+    notes[activeIndex].text = notes[activeIndex].text.slice(0, selectionStart) 
+                              + '<b>' 
+                              + notes[activeIndex].text.slice(selectionStart, selectionEnd) 
+                              + '</b>' 
+                              + notes[activeIndex].text.slice(selectionEnd);
+    console.log(notes[activeIndex].text)
+    console.log(textArea) 
+    console.log(textArea.selectionStart)
+    console.log(textArea.selectionEnd)
+  }
+
+//   function font_attr(i) {
+//     var obj = document.getElementById("textArea_edit");
+    
+//     if(typeof(document.selection) != "undefined") { // MSIE, Opera
+//         obj.focus();
+//         var sel  = document.selection.createRange();
+//         sel.text = "["+bbcode[i]+"]" + sel.text + "[/"+bbcode[i]+"]";
+//     } else if(typeof(obj.selectionStart) != "undefined") {  // FireFox, Chrome, Safari, Opera
+//          var mid   = obj.value.substring(obj.selectionStart, obj.selectionEnd);
+//          var first = obj.value.substring(0, obj.selectionStart);
+//          var last  = obj.value.substring(obj.selectionEnd, obj.value.length);
+//          obj.value = first + "["+bbcode[i]+"]" + mid + "[/"+bbcode[i]+"]" + last;
+//     }
+// }
 
 
-  function createNote() {
-    noteStore.addNote({
+  async function createNote() {
+    await addNewNote({
       'title': '',
       'text': ''
     })
-    displayStore.setIsActive(true)
-    noteStore.setActiveIndex(noteStore.notes.length - 1)
+
+    changeIsActive(true)
   }
 
   function deleteNote() {
-    noteStore.removeNote(noteStore.activeIndex)
-    displayStore.setIsActive(false)
+    removeNote(activeIndex)
+
+    changeIsActive(false)
     setShowDelete(false)
   }
-
 
   const style = {
     position: 'absolute' as 'absolute',
@@ -68,7 +102,7 @@ function Header() {
     }
   })
 
-  const tableShowing = displayStore._isTable ? {
+  const tableShowing = isTable ? {
     bgColor: '#212225',
     btnBackground_table: '#2d2d32',
     btnBackground_list: 'none',
@@ -153,18 +187,18 @@ function Header() {
           padding: '0 10px'
         }}>
           <Box>
-            <HeaderButton onClick={() => displayStore.setIsTable(false)} sx={{
+            <HeaderButton onClick={() => changeIsTable(false)} sx={{
               background: tableShowing.btnBackground_list
             }}>
               <FormatListBulleted/>
             </HeaderButton>
-            <HeaderButton onClick={() => displayStore.setIsTable(true)} sx={{
+            <HeaderButton onClick={() => changeIsTable(true)} sx={{
               background: tableShowing.btnBackground_table
             }}>
               <GridView/>
             </HeaderButton>
-            {displayStore._isTable ? displayStore._isActive ?
-            <HeaderButton onClick={() => displayStore.setIsActive(false)}>
+            {isTable ? isActive ?
+            <HeaderButton onClick={() => changeIsActive(false)}>
               <ArrowBackIosNewRounded/>
             </HeaderButton> :
             <HeaderButton disabled>
@@ -175,7 +209,7 @@ function Header() {
           <Box sx={{
             display: 'flex'
           }}>
-            {displayStore._isActive ? 
+            {isActive ? 
               <HeaderButton onClick={handleOpen}><DeleteOutlineOutlined/></HeaderButton> 
               : 
               <HeaderButton disabled><DeleteOutlineOutlined/></HeaderButton>
@@ -198,7 +232,10 @@ function Header() {
           <HeaderButton onClick={() => createNote()}>
             <Create/>
           </HeaderButton>
-          <HeaderButton disabled={!editActive}>
+          <HeaderButton 
+            disabled={!editActive}
+            onClick={formatText}
+          >
             <FormatColorTextRounded/>
           </HeaderButton>
           {editInTable ? <HeaderButton disabled>
@@ -210,8 +247,8 @@ function Header() {
           <HeaderButton disabled>
             <SearchRounded/>
           </HeaderButton>
-         :
-        <TextField  placeholder='Поиск' InputProps={{
+          :
+          <TextField  placeholder='Поиск' InputProps={{
             startAdornment: (
               <InputAdornment position="start">
                 <SearchRounded />
@@ -246,4 +283,4 @@ function Header() {
   )
 }
 
-export default observer(Header)
+export default Header

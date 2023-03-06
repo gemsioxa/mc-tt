@@ -1,12 +1,13 @@
 import { Box, Typography, Grid } from '@mui/material'
-import React from 'react'
+import React, { useContext } from 'react'
 import { noteStore } from '../../../main'
 import ListItem from './ListItem'
 import { observer } from 'mobx-react'
+import { NotesContext } from '../../../context'
 
 function List() {
-
-    const notes = noteStore.notes
+    const {notes} = useContext(NotesContext)
+    // const notes = noteStore.notes
 
   return (
     <Box sx={{
@@ -39,11 +40,11 @@ function List() {
                 margin: '15px'
             }}>
                 {notes.map((item, index) => {
-                    return <ListItem id={index} title={item.title} text={item.text}/>
+                    return <ListItem key={index} id={index} title={item.title} text={item.text}/>
                 })}
             </Grid>
         </Box>
     </Box>
   )
 }
-export default observer(List)
+export default List
