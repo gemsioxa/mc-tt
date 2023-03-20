@@ -72,9 +72,11 @@ function TextArea() {
         sx={{
           width: "100%",
           height: "calc(100vh - 110px)",
-          ".css-1rb63tl-MuiInputBase-root-MuiInput-root": {
-            padding: "0 15px",
-            color: "white",
+          ".MuiInputBase-root": {
+            textarea: {
+              padding: "0 15px",
+              color: "white",
+            },
             "&:before": {
               border: "none",
             },
