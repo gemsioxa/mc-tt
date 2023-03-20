@@ -8,6 +8,11 @@ function TextArea() {
     month: "long",
     day: "numeric",
   };
+
+  function setFocus() {
+    let inputElement = document.getElementById("textArea_edit");
+    inputElement?.focus();
+  }
   const {
     notes,
     setNewNotes,
@@ -27,6 +32,7 @@ function TextArea() {
         maxHeight: "calc(100vh - 65px)",
         overflowY: "auto",
       }}
+      onClick={setFocus}
     >
       <Typography
         textAlign="center"
@@ -72,6 +78,7 @@ function TextArea() {
         sx={{
           width: "100%",
           height: "calc(100vh - 110px)",
+          cursor: "text",
           ".MuiInputBase-root": {
             textarea: {
               padding: "0 15px",
